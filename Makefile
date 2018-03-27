@@ -19,7 +19,7 @@ default : tsc
 
 tsc :
 	@echo "---   compiling       ---"
-	tsc
+	@tsc
 
 cat : tsc
 	@echo "---   concatenating   ---"
