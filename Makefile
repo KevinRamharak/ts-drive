@@ -8,28 +8,33 @@ SOURCE_DIR := ./src
 BUILD_DIR  := ./build
 CLASP_DIR  := ./clasp
 
-TARGET := $(CLASP_DIR)/$(PROJECT)
+# we manually put '$(PROJECT).$ext' at the front because it should fail if it does not exist
+SOURCE_FILES = $(SOURCE_DIR)/$(PROJECT).ts $(shell find $(SOURCE_DIR) -name '*.ts' ! -path '$(SOURCE_DIR)/$(PROJECT).ts')
+BUILD_FILES = $(BUILD_DIR)/$(PROJECT).js $(shell find $(BUILD_DIR) -name '*.js' ! -path '$(BUILD_DIR)/$(PROJECT).js')
+DECL_FILES = $(BUILD_DIR)/$(PROJECT).d.ts $(shell find $(BUILD_DIR) -name '*.d.ts' ! -path '$(BUILD_DIR)/$(PROJECT).d.ts')
 
-SOURCE_FILES = $(shell find $(SOURCE_DIR) -name '*.ts')
-BUILD_FILES = $(shell find $(BUILD_DIR) -name '*.js' ! -path '$(BUILD_DIR)/$(PROJECT).js')
-DECL_FILES = $(shell find $(BUILD_DIR) -name '*.d.ts')
+# @TODO: do some more sane compiling with dependencies?
 
 default : tsc
 
-tsc : $(SOURCE_FILES)
+tsc :
 	@echo "---   compiling       ---"
 	tsc
 
 cat : tsc
 	@echo "---   concatenating   ---"
-	@echo "$(BUILD_DIR)/$(PROJECT).js $(BUILD_FILES) > $(CLASP_DIR/PROJECT).js"
-	@cat -s $(BUILD_DIR)/$(PROJECT).js $(BUILD_FILES) > $(CLASP_DIR)/$(PROJECT).js
+	@echo "$(BUILD_FILES) > $(CLASP_DIR/PROJECT).js"
+	@cat -s $(BUILD_FILES) > $(CLASP_DIR)/$(PROJECT).js
 	@echo "$(DECL_FILES) > $(CLASP_DIR)/$(PROJECT).d.ts"
 	@echo '///<reference types="google-apps-script" />' | cat -s - $(DECL_FILES) > $(CLASP_DIR)/$(PROJECT).d.ts
 
 push : cat
 	@echo "---   pushing         ---"
-	cd $(CLASP_DIR) && clasp push
+	@git push
+	@cd $(CLASP_DIR) && clasp push
+
+all : push
 
 clean :
 	@rm -rfv $(BUILD_DIR)/*
+	@rm -rfv $(CLASP_DIR)/$(PROJECT).{j,d.t}s
