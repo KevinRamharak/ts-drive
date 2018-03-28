@@ -42,7 +42,7 @@ tag : cat
 	@git add -A
 	@git commit -a
 	@echo '---   tagging           ---'
-	@git tag -a
+	@git tag -a $(word 2,$^)
 	@echo "---   pushing           ---"
 	@git push
 	@echo "---   clasp             ---"
