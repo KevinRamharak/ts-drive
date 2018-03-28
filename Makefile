@@ -40,7 +40,7 @@ commit : cat
 tag : cat
 	@echo "---   commiting         ---"
 	@git add -A
-	@git commit -a
+	@git commit -a || :
 	@echo '---   tagging           ---'
 	@git tag -a $(VERSION)
 	@echo "---   pushing           ---"
