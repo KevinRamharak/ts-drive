@@ -37,6 +37,17 @@ commit : cat
 	@echo "---   clasp             ---"
 	@cd $(CLASP_DIR) && clasp push
 
+tag : cat
+	@echo "---   commiting         ---"
+	@git add -A
+	@git commit -a
+	@echo '---   tagging           ---'
+	@git tag -a
+	@echo "---   pushing           ---"
+	@git push
+	@echo "---   clasp             ---"
+	@cd $(CLASP_DIR) && clasp push
+
 push : cat
 	@echo "---   pushing         ---"
 	@git push
