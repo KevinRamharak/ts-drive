@@ -23,7 +23,7 @@ tsc :
 
 cat : tsc
 	@echo "---   concatenating   ---"
-	@echo "$(BUILD_FILES) > $(CLASP_DIR/PROJECT).js"
+	@echo "$(BUILD_FILES) > $(CLASP_DIR)/$(PROJECT).js"
 	@cat -s $(BUILD_FILES) > $(CLASP_DIR)/$(PROJECT).js
 	@echo "$(DECL_FILES) > $(CLASP_DIR)/$(PROJECT).d.ts"
 	@echo '///<reference types="google-apps-script" />' | cat -s - $(DECL_FILES) > $(CLASP_DIR)/$(PROJECT).d.ts
