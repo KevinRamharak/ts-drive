@@ -30,14 +30,17 @@ cat : tsc
 
 commit : cat
 	@echo "---   commiting         ---"
+	@git add -A
 	@git commit -a
 	@echo "---   pushing           ---"
 	@git push
+	@echo "---   clasp             ---"
 	@cd $(CLASP_DIR) && clasp push
 
 push : cat
 	@echo "---   pushing         ---"
 	@git push
+	@echo "---   clasp           ---"
 	@cd $(CLASP_DIR) && clasp push
 
 all : push
