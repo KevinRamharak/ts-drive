@@ -44,7 +44,7 @@ tag : cat
 	@echo '---   tagging           ---'
 	@git tag -a $(VERSION)
 	@echo "---   pushing           ---"
-	@git push
+	@git push origin $(VERSION)
 	@echo "---   clasp             ---"
 	@cd $(CLASP_DIR) && clasp push
 
