@@ -19,7 +19,7 @@ class File extends DriveObject {
         return this.file.getThumbnail();
     }
 
-    as(contentType: GoogleAppsScript.Base.MimeType): GoogleAppsScript.Base.Blob {
+    as(contentType: MimeType): GoogleAppsScript.Base.Blob {
         //@ts-ignore - the '.d.ts' file does not define the enum as strings
         return this.file.getAs(<string>contentType);
     }
@@ -34,7 +34,6 @@ class File extends DriveObject {
         (typeof user === 'string') ? this.file.addCommenter(user) : this.file.addCommenter(user.user);
         return this;
     }
-
 
     addCommenters(users: (User | string)[]): this {
         users.forEach(this.addCommenter, this);
@@ -56,17 +55,6 @@ class File extends DriveObject {
     copy(destination: Folder): File;
     copy(name: string, destination: Folder): File;
     copy(nameOrDestination?: string | Folder, destination?: Folder): File {
-        if (!nameOrDestination)
-            return new File(this.file.makeCopy());
-        else {
-            if (!destination) {
-                if (typeof nameOrDestination === 'string')
-                    return new File(this.file.makeCopy(nameOrDestination));
-                else
-                    return new File(this.file.makeCopy(nameOrDestination.folder));
-            } else {
-                return new File(this.file.makeCopy(<string>nameOrDestination, destination.folder));
-            }
-        }
+        return new File(this.file.makeCopy.apply(this.file, arguments));
     }
 }

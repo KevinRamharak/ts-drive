@@ -28,6 +28,13 @@ cat : tsc
 	@echo "$(DECL_FILES) > $(CLASP_DIR)/$(PROJECT).d.ts"
 	@echo '///<reference types="google-apps-script" />' | cat -s - $(DECL_FILES) > $(CLASP_DIR)/$(PROJECT).d.ts
 
+commit : cat
+	@echo "---   commiting         ---"
+	@git commit -a
+	@echo "---   pushing           ---"
+	@git push
+	@cd $(CLASP_DIR) && clasp push
+
 push : cat
 	@echo "---   pushing         ---"
 	@git push

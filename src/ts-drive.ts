@@ -13,8 +13,11 @@
 
 /* This block is meant to add polyfills when needed */
 (function polyfills() {
-
 })();
+
+/* Type fixes on the 'google-apps-script.d.ts' file */
+type MimeType = GoogleAppsScript.Base.MimeType;
+declare var MimeType: typeof GoogleAppsScript.Base.MimeType;
 
 /* Utillities */
 type falsey = false | null | undefined | void;
