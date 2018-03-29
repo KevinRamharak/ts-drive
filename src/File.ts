@@ -11,7 +11,7 @@ class File extends DriveObject {
         return this.file.getBlob();
     }
 
-    get mimeType(): string {
+    get mimeType(): MimeType {
         return this.file.getMimeType();
     }
 
@@ -20,8 +20,7 @@ class File extends DriveObject {
     }
 
     as(contentType: MimeType): GoogleAppsScript.Base.Blob {
-        //@ts-ignore - the '.d.ts' file does not define the enum as strings
-        return this.file.getAs(<string>contentType);
+        return this.file.getAs(contentType);
     }
 
     get commenters(): User[] {

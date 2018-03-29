@@ -23,9 +23,8 @@ class Folder extends DriveObject {
         );
     }
 
-    fileByType(type: GoogleAppsScript.Base.MimeType): File[] {
+    fileByType(type: MimeType): File[] {
         return iterate<GoogleAppsScript.Drive.File, File[]>(
-            //@ts-ignore - enum is not declared as string
             this.folder.getFilesByType(type),
             function (this: File[], file: GoogleAppsScript.Drive.File) {
                 this.push(new File(file));

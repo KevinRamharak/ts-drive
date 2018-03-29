@@ -16,7 +16,7 @@
 })();
 
 /* Type fixes on the 'google-apps-script.d.ts' file */
-type MimeType = GoogleAppsScript.Base.MimeType;
+type MimeType = string;
 declare var MimeType: typeof GoogleAppsScript.Base.MimeType;
 
 /* Utillities */
@@ -29,6 +29,23 @@ interface Iterator<T> {
 
 interface IteratorCallback<T> {
     (item: T): void | false;
+}
+
+interface Constructor<T, R> {
+    new(item : T) : R;
+}
+
+class WrappedIterator<T, R> implements Iterator<R>{
+    constructor(private readonly iterator : Iterator<T>, readonly type : Constructor<T, R>) {
+    }
+
+    next() : R {
+        return new this.type(this.iterator.next());
+    }
+
+    hasNext() : boolean {
+        return this.iterator.hasNext();
+    }
 }
 
 function iterate<T, R>(iterator: Iterator<T>, func: IteratorCallback<T>, thisArg: R) {

@@ -88,7 +88,6 @@ class Drive {
 
     filesByType(mimeType : MimeType) : File[]{
         return iterate<GoogleAppsScript.Drive.File, File[]>(
-            //@ts-ignore - enum is not typed as string
             this.drive.getFilesByType(mimeType),
             function(this : File[], file : GoogleAppsScript.Drive.File) {
                 this.push(new File(file));
@@ -224,5 +223,17 @@ class Drive {
 
     search(pattern : string) : (File|Folder)[] {
         return (<(File|Folder)[]>this.searchFolders(pattern)).concat(this.searchFiles(pattern));
+    }
+
+    getFiles() : Iterator<File> {
+        return new WrappedIterator<GoogleAppsScript.Drive.File, File>(this.drive.getFiles(), File);
+    }
+
+    getFilesByName(name : string) : Iterator<File> {
+        return new WrappedIterator<GoogleAppsScript.Drive.File, File>(this.drive.getFilesByName(name), File);
+    }
+
+    getFilesByType(type : MimeType) : Iterator<File> {
+        return new WrappedIterator<GoogleAppsScript.Drive.File, File>(this.drive.getFilesByType(type), File);
     }
 }
